@@ -1,0 +1,11 @@
+extends layout
+
+block content
+  .main.container
+    .row
+      .col-md-12
+        h1.display-4.m-b-2 Compare Two Swagger JSON Urls
+    .row
+      .col-md-12
+        h2 #{error.status} #{message}
+        pre #{error.stack}

@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  .main.container
+    .row
+      .col-md-12
+        h1.display-4.m-b-2 Compare Two Swagger JSON Urls
+    .row
+      .col-md-1
+        img(src='/images/favicon-96x96.png')
+      .col-md-11
+        form(method='POST' action='/compare')
+          div.form-group
+            label(for='url1') Swagger JSON URL1:
+            input#url1.form-control(type='text', placeholder='url1:{port}/{path}/swagger/docs/v1' name='url1')
+          div.form-group
+            label(for='url2') Swagger JSON URL2:
+            input#url2.form-control(type='text', placeholder='url2:{port}/{path}/swagger/docs/v1' name='url2')
+          button.btn.btn-primary(type='submit') Compare
