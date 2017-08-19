@@ -8,10 +8,21 @@ var expressValidator = require('express-validator');
 var request = require('request');
 var swaggerDiff = require('swagger-diff');
 var formatjson = require('format-json');
+var debug = require('debug')('sdiff:server');
+var http = require('http');
 
-var index = require('./routes/index');
+// Variable deployPath is set in web.config and must match
+// the path of app.js in virtual directory.
+// If app.js is run from command line:
+//   "C:/tssapp-deploy/tsappsvr/TestExpress/0.0.0> node app.js"
+// deployPath is set to empty string.
+var deployPath = process.env.deployPath || "";
+
+var port = process.env.PORT || '8033';
 
 var app = express();
+
+app.set('port', port);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,9 +43,12 @@ app.use(expressValidator());
 
 app.use(cookieParser());
 
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(deployPath + "/", express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.route('/').get(function(req, res, next) {
+    res.render('index', { title: 'Swagger Diff Web' });
+});
+
 app.route('/compare').post(function(req, res, next) {
 
     var url1 = req.body.url1;
@@ -65,7 +79,7 @@ app.route('/compare').post(function(req, res, next) {
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-    var err = new Error('Not Found');
+    var err = new Error('Not Found: ' + req.originalUrl);
     err.status = 404;
     next(err);
 });
@@ -81,4 +95,6 @@ app.use(function(err, req, res, next) {
     res.render('error');
 });
 
-module.exports = app;
+var server = http.createServer(app);
+server.listen(port);
+console.log('Application has started at location ' + process.env.PORT);
