@@ -1,0 +1,7 @@
+version: '3'
+services:
+  azure-scw:
+    image: stuartw/swaggercompareweb
+    container_name: azure-swagger-compare
+    ports:
+        - "80:80"

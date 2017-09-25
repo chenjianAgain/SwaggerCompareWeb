@@ -60,26 +60,38 @@ ssh -L 2375:localhost:2375 -f -N {user}@{fdqn} -p 2200 -i {private-key}
 # export port
 export DOCKER_HOST=:2375
 ```
+### Build and Run
 
-### Build
+#### Docker
 
-```docker build -t {yourname}/swaggercompareweb .```
+```bash
+docker build -t {yourname}/swaggercompareweb .
+docker run -p 80:80 -d {yourname}/swaggercompareweb
+```
 
-### Run
+#### Swarm
 
-```docker run -p 49160:8033 -d {yourname}/swaggercompareweb```
+This uses the docker-compose.yaml file:
+
+```docker-compose up -d```
 
 ### What's your container id?
 
-```docker ps```
+```bash
+docker ps
+```
 
-### terminal into docker container
+### Terminal into docker container
 
-```winpty docker exec -it {container-id} bash```
+```bash
+winpty docker exec -it {container-id} bash
+```
 
-### kill your container
+### Kill your container
 
-```docker kill {container-id}```
+```bash
+docker kill {container-id}
+```
 
 ### Tips
 
