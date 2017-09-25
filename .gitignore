@@ -59,3 +59,6 @@ typings/
 
 # Ignore IISNODE log files
 iisnode/
+
+# Ignore BASH Shell files
+*.sh

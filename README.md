@@ -35,3 +35,52 @@ GitHub: https://github.com/tjanczuk/iisnode
 
 The site should come up on http://localhost:[port]
 
+## Dockerization using Azure Container Service (in Swarm mode)
+
+These examples are in BASH format, you may need to alias the azure command line ('az') to:
+
+```bash
+alias az="/C/Program\ Files\ \(x86\)/Microsoft\ SDKs/Azure/CLI2/wbin/az.cmd"
+```
+
+### Login to Azure
+
+```bash
+az login
+az acs list --resource-group {ResourceGroup} --query '[*].{Master:masterProfile.fqdn,Agent:agentPoolProfiles[0].fqdn}' -o table
+```
+
+### SSH
+
+If you used *PuTTYGen* to make a key, you must export your private key in open ssh format to use it in the command line argument
+
+```bash
+# make an ssh tunnel
+ssh -L 2375:localhost:2375 -f -N {user}@{fdqn} -p 2200 -i {private-key}
+# export port
+export DOCKER_HOST=:2375
+```
+
+### Build
+
+```docker build -t {yourname}/swaggercompareweb .```
+
+### Run
+
+```docker run -P -d {yourname}/swaggercompareweb```
+
+### What's your container id?
+
+```docker ps```
+
+### terminal into docker container
+
+```winpty docker exec -it {container-id} bash```
+
+### kill your container
+
+```docker kill {container-id}```
+
+### Tips
+
+* Shutdown the master VM when not in use to save money.
