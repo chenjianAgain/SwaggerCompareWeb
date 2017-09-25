@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Port for Web
-EXPOSE 8033
+EXPOSE 8088
 
 # How to start the app
 CMD [ "npm", "start" ]

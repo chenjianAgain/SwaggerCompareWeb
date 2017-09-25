@@ -67,7 +67,7 @@ export DOCKER_HOST=:2375
 
 ### Run
 
-```docker run -P -d {yourname}/swaggercompareweb```
+```docker run -p 49160:8033 -d {yourname}/swaggercompareweb```
 
 ### What's your container id?
 
