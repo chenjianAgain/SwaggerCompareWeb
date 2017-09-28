@@ -15,6 +15,7 @@ describe('Compare Swagger YAML', function () {
                 var text = formatjson.diffy(diff);
                 assert.equal(text.length > 0, true);
             }).catch(function () {
+                // suppress weird promise error
                 console.log("");
             });
         });
