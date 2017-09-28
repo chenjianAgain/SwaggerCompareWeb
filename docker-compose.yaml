@@ -4,4 +4,4 @@ services:
     image: stuartw/swaggercompareweb
     container_name: azure-swagger-compare
     ports:
-        - "80:80"
+        - "8088:8088"
