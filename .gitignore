@@ -62,3 +62,7 @@ iisnode/
 
 # Ignore BASH Shell files
 *.sh
+
+# Ignore Scripts
+docker/
+scripts/
