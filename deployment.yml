@@ -1,0 +1,17 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: swagger-compare-web-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: scw
+    spec:
+      containers:
+      - name: scw
+        image: registry4stuartw.azurecr.io/swaggercompareweb
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8033
