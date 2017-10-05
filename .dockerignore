@@ -1,2 +1,9 @@
 node_modules
 npm-debug.log
+scripts
+.git
+.vscode
+test
+Dockerfile
+.dockerignore
+*.yml
