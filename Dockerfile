@@ -6,8 +6,10 @@ FROM node:latest
 
 LABEL Author="Stuart Williams <spookdejur@hotmail.com>"
 
+# Variables
 ENV PORT 80
 ENV WDIR /usr/src/scw
+
 # Create app directory
 RUN mkdir -p ${WDIR}
 WORKDIR ${WDIR}
@@ -27,5 +29,5 @@ EXPOSE ${PORT}
 HEALTHCHECK --interval=5m --timeout=3s \
   CMD curl -f http://localhost:${PORT} || exit 1
 
-# How to start the app
+# Start the app
 CMD [ "npm", "start" ]
