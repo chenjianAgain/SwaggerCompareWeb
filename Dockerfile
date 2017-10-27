@@ -5,9 +5,10 @@
 FROM node:latest
 
 LABEL Author="Stuart Williams <spookdejur@hotmail.com>"
+LABEL Version="1.1"
 
 # Variables
-ENV PORT 80
+ENV PORT 8080
 ENV WDIR /usr/src/scw
 
 # Create app directory
