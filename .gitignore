@@ -66,3 +66,4 @@ iisnode/
 # Ignore Scripts
 docker/
 scripts/
+.vscode/
