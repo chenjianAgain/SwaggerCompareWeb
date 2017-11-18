@@ -5,7 +5,7 @@
 FROM node:latest
 
 LABEL Author="Stuart Williams <spookdejur@hotmail.com>"
-LABEL Version="1.1"
+LABEL Version="1.2"
 
 # Variables
 ENV PORT 8080
