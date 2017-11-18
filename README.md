@@ -1,29 +1,29 @@
-# Swagger Difference Web Site
+# Swagger Difference Web Site #
 
 It's simple but it works and has been handy
 
-## Core Library
+## Core Library ##
 
 Uses the excellent `swagger-diff`
 
 https://www.npmjs.com/package/swagger-diff
 
-## How to run on IIS with IISNODE
+## How to run on IIS with IISNODE ##
 
-### IIS NODE
+### IIS NODE ### 
 
 Blog: https://tomasz.janczuk.org/2011/08/hosting-nodejs-applications-in-iis-on.html
 GitHub: https://github.com/tjanczuk/iisnode
 
-### Install 
+### Install  ### 
 
-* A modern windows server (2012+) with IIS
-* URL Rewrite 2
-* GIT for Windows
-* NODEJS for Windows
-* IISNODE
+* A modern windows server (2014+) with IIS installed
+* URL Rewrite 2 <a href="https://www.microsoft.com/en-us/download/details.aspx?id=47337" target="_blank">https://www.microsoft.com/en-us/download/details.aspx?id=47337</a> 
+* GIT for Windows <a href="https://git-scm.com/download/win" target="_blank">https://git-scm.com/download/win</a>
+* NODEJS for Windows <a href="https://nodejs.org/en/download/" target="_blank">https://nodejs.org/en/download/</a>
+* IISNODE <a href="https://github.com/tjanczuk/iisnode/wiki/iisnode-releases" target="_blank">https://github.com/tjanczuk/iisnode/wiki/iisnode-releases</a>
 
-### Configure
+### Configure ### 
 
 1. Make an AppPool, sadly I could only get it to run correctly running as `LocalSystem`
 2. Make a web site (I use an alternate port number)
@@ -31,68 +31,83 @@ GitHub: https://github.com/tjanczuk/iisnode
 - change the file system path to point to the root of the git folder you pulled
 3. IISReset
 
-### Use and enjoy
+### Use and enjoy ### 
 
 The site should come up on http://localhost:[port]
 
-## Dockerization using Azure Container Service (in Swarm mode)
+## Dockerization using Azure Kubernetes Service (AKS) ##
 
-These examples are in BASH format, you may need to alias the azure command line ('az') to:
+### Create an AKS cluster ### 
 
-```bash
-alias az="/C/Program\ Files\ \(x86\)/Microsoft\ SDKs/Azure/CLI2/wbin/az.cmd"
-```
+Create an AKS cluster, see the handy video: <a href="https://www.youtube.com/watch?v=OdigLuK09NE" target="_blank">https://www.youtube.com/watch?v=OdigLuK09NE</a>
 
-### Login to Azure
+### Start Docker ### 
+
+You will need to start docker, if you are using a container repository, login to that.
+
+### Login to Azure ### 
 
 ```bash
 az login
-az acs list --resource-group {ResourceGroup} --query '[*].{Master:masterProfile.fqdn,Agent:agentPoolProfiles[0].fqdn}' -o table
 ```
 
-### SSH
-
-If you used *PuTTYGen* to make a key, you must export your private key in open ssh format to use it in the command line argument
+### Pull down your AKS creds ### 
 
 ```bash
-# make an ssh tunnel
-ssh -L 2375:localhost:2375 -f -N {user}@{fdqn} -p 2200 -i {private-key}
-# export port
-export DOCKER_HOST=:2375
+pushd ~
+az aks get-credentials -n $kb -g $rg
+popd
 ```
-### Build and Run
+Where ```$kb``` is the name of the K8s cluster and ```$rg``` is the resource group it is in
 
-#### Docker
+The reason for the pushd/popd is to make sure that your are in your ```$HOME``` directory so that the ```.kube/config``` file get created in the right place.
+
+### Build ###
 
 ```bash
-docker build -t {yourname}/swaggercompareweb .
-docker run -p 80:80 -d {yourname}/swaggercompareweb
+docker build -t {your repository}/swaggercompareweb .
+docker push {your repository}/swaggercompareweb
 ```
 
-#### Swarm
-
-This uses the docker-compose.yaml file:
-
-```docker-compose up -d```
-
-### What's your container id?
+### Run Locally ###
 
 ```bash
-docker ps
+docker run -p 8080:8080 -d {yourname}/swaggercompareweb
 ```
+### Deploy to your AKS ###
 
-### Terminal into docker container
+Deploy to Kubernetes in Azure
+
+#### Create a deployment ####
 
 ```bash
-winpty docker exec -it {container-id} bash
+kubectl create -f deployment.yaml
 ```
 
-### Kill your container
+#### Create a service ####
 
 ```bash
-docker kill {container-id}
+kubectl create -f service.yaml
 ```
 
-### Tips
+> You will need to wait a few minutes for AKS to provision an external IP address
 
-* Shutdown the master VM when not in use to save money.
+#### Test your service ####
+
+```
+http://{extenal ip}:8080
+```
+
+-or-
+
+```bash
+kubectl proxy
+Starting to serve on {address}:8001
+```
+
+Then browse to ```http://{address}:8001/ui``` to see the dashboard and browse to services and launch it from there.
+
+
+#### Tips ####
+
+* Shutdown the Agent VMs when not in use to save money.
