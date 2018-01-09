@@ -43,7 +43,7 @@ app.use(expressValidator());
 
 app.use(cookieParser());
 
-app.use(deployPath + "/", express.static(path.join(__dirname, 'public')));
+app.use(deployPath + "/public", express.static(path.join(__dirname, 'public')));
 
 app.route('/').get(function(req, res, next) {
     res.render('index', { title: 'Swagger Diff Web' });
