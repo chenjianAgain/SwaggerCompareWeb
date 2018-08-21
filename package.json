@@ -1,6 +1,6 @@
 {
     "name": "sdiff",
-    "version": "1.0.0",
+    "version": "1.0.5",
     "private": true,
     "scripts": {
         "start": "node app.js",
@@ -21,7 +21,7 @@
         "swagger-diff": "^0.6.0"
     },
     "devDependencies": {
-        "mocha": "^3.5.3",
+        "mocha": "^5.2.0",
         "nodemon": "^1.18.3"
     },
     "engines": {
