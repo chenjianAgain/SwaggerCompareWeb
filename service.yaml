@@ -8,7 +8,7 @@ spec:
   selector:
     app: swaggercompareweb
   ports:
-  - port: 8080
+  - port: 80
     protocol: TCP
-    targetPort: 9377
+    targetPort: 8080
   type: LoadBalancer
