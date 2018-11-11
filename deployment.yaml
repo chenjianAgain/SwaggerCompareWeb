@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: swaggercompareweb
-        image: registry4stuartw.azurecr.io/swaggercompareweb
+        image: gcr.io/double11-222123/swaggercompareweb:1.0
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
