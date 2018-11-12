@@ -11,7 +11,7 @@ spec:
     spec:
       containers:
       - name: swaggercompareweb
-        image: gcr.io/double11-222123/swaggercompareweb:7.0
+        image: gcr.io/double11-222123/swaggercompareweb:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
